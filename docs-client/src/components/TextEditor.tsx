@@ -1,5 +1,5 @@
 import "quill/dist/quill.snow.css";
-import Quill, { Delta } from "quill";
+import Quill, { Delta, DeltaStatic } from "quill";
 import { useCallback, useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { useParams } from "react-router-dom";
@@ -22,6 +22,8 @@ const TOOLBAR_OPTIONS = [
 	["clean"],
 ];
 
+const SAVE_INTERVAL_MS = 5000;
+
 function TextEditor() {
 	const [socket, setSocket] = useState<Socket | undefined>(undefined);
 	const [quill, setQuill] = useState<Quill>();
@@ -39,8 +41,22 @@ function TextEditor() {
 	useEffect(() => {
 		if (!socket || !quill) return;
 
-		socket.once("load-document", (document: string) => {
-			quill.setContents(JSON.parse(document));
+
+		const interval = setInterval(() => {
+			socket.emit("save-document", quill.getContents());
+		}, SAVE_INTERVAL_MS);
+
+		return () => {
+			clearInterval(interval);
+		}
+
+	}, [socket, quill]);
+
+	useEffect(() => {
+		if (!socket || !quill) return;
+
+		socket.once("load-document", (document: DeltaStatic) => {
+			quill.setContents(document);
 			quill.enable();
 		});
 
