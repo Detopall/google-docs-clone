@@ -2,7 +2,7 @@
 
 ## Description
 
-Using this video from [Web Dev Simplified](https://www.youtube.com/watch?v=iRaelG7v0OU) I have created a Google Docs Clone using React, Quill and Node.js. It allows users to create, edit, and delete documents. It also allows users to share documents with other users and collaborate in real time.
+Using this video from [Web Dev Simplified](https://www.youtube.com/watch?v=iRaelG7v0OU) I have created a Google Docs Clone using React (+ Typescript + Vite), Quill, Socket.io, Node.js and MongoDB. It allows users to create, edit, and delete documents. It also allows users to share documents with other users and collaborate in real time.
 
 ## Installation and Usage
 
